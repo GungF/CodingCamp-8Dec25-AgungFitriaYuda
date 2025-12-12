@@ -15,18 +15,34 @@ function displayTasks(filter = '') {
     todoTableBody.innerHTML = '';
     const filteredTasks = tasks.filter(task => 
         task.text.toLowerCase().includes(filter.toLowerCase())
-    ).sort((a, b) => new Date(a.date) - new Date(b.date)); // Sort only by date (earliest first)
-    
+    ).sort((a, b) => new Date(a.date) - new Date(b.date));
+
+    function formatDate(dateString) {
+    const date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
+}    
     filteredTasks.forEach((task) => {
         const row = document.createElement('tr');
         row.innerHTML = `
             <td class="${task.completed ? 'completed' : ''}">${task.text}</td>
-            <td>${new Date(task.date).toLocaleDateString()}</td>
+            <td>${formatDate(task.date)}</td>
             <td><input type="checkbox" class="status-checkbox" data-id="${task.id}" ${task.completed ? 'checked' : ''}></td>
             <td><button class="delete-btn" data-id="${task.id}">Delete</button></td>
         `;
         todoTableBody.appendChild(row);
     });
+
+    // If no tasks to display
+    if (filteredTasks.length === 0) {
+        const noTaskRow = document.createElement('tr');
+        noTaskRow.innerHTML = `
+            <td colspan="4" style="text-align: center; color: gray;">No Task Found</td>
+        `;
+        todoTableBody.appendChild(noTaskRow);
+    }
 }
 
 // Add task event
@@ -50,19 +66,19 @@ filterToggleBtn.addEventListener('click', () => {
     const isVisible = filterInput.style.display === 'block';
     filterInput.style.display = isVisible ? 'none' : 'block';
     if (!isVisible) {
-        filterInput.focus(); // Focus on input when shown
+        filterInput.focus();
     } else {
-        filterInput.value = ''; // Clear filter when hidden
-        displayTasks(); // Reset display
+        filterInput.value = '';
+        displayTasks();
     }
 });
 
-// Filter tasks event (only when input is visible)
+// Filter tasks event
 filterInput.addEventListener('input', (e) => {
     displayTasks(e.target.value);
 });
 
-// Handle status toggle (using 'change' event for checkboxes)
+// Handle status toggle
 todoTableBody.addEventListener('change', (e) => {
     if (e.target.classList.contains('status-checkbox')) {
         const taskId = parseInt(e.target.getAttribute('data-id'));
@@ -73,7 +89,7 @@ todoTableBody.addEventListener('change', (e) => {
     }
 });
 
-// Handle delete (using 'click' event for buttons)
+// Handle delete
 todoTableBody.addEventListener('click', (e) => {
     if (e.target.classList.contains('delete-btn')) {
         const taskId = parseInt(e.target.getAttribute('data-id'));
