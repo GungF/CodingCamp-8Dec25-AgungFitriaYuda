@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To Do List - Agung Fitria Yuda</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>To Do List</h1>
+        
+        <!-- Form to add tasks -->
+        <form id="todo-form">
+            <input type="text" id="task-input" placeholder="Enter a task" required>
+            <input type="date" id="date-input" required>
+            <button type="submit">Add</button>
+        </form>
+        
+        <!-- Controls section: Filter button/input and Clear All button on the same row -->
+        <div class="controls-section">
+            <div class="filter-group">
+                <button id="filter-toggle-btn">Filter Tasks</button>
+                <input type="text" id="filter-input" placeholder="Enter Filter..." style="display: none;">
+            </div>
+            <button id="clear-all-btn" class="clear-all-btn">Delete All Tasks</button>
+        </div>
+        
+        <!-- Table to display tasks -->
+        <table id="todo-list">
+            <thead>
+                <tr>
+                    <th>Task</th>
+                    <th>Due Date</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        <!-- Footer Content -->
+    <footer class="pt-2">
+                <br/>
+                <br/>
+        <p>&copy; 2025 Agung FY To Do List App. All rights reserved.</p>
+    </footer>
+    </div>
+    
+    <script src="js/script.js"></script>
+</body>
+</html>
